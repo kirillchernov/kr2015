@@ -9,30 +9,30 @@ import javafx.scene.media.MediaView;
 public class KIPlayer extends BorderPane {
 	
 	Media media;
-	MediaPlayer player;
-	MediaView view;
+	MediaPlayer kiplayer;
+	MediaView mview;
 	Pane mpane;
-	FunctionalBar bar;
+	FunctionalBar fbar;
 	
 	public KIPlayer(String file){
 		media = new Media(file);
-		player = new MediaPlayer(media);
-		view = new MediaView(player);
+		kiplayer = new MediaPlayer(media);
+		mview = new MediaView(kiplayer);
 		mpane = new Pane();
 		
-		mpane.getChildren().add(view);
-		
-		
+		mpane.getChildren().add(mview);
+		mview.getLocalToSceneTransform();
 		
 		setCenter(mpane);
 		
-		bar = new FunctionalBar(player);
 		
-		setTop(bar);
+		fbar = new FunctionalBar(kiplayer);
 		
-		bar.setStyle("-fx-backgroung-color: #bfc2c7;" );
+		setTop(fbar);
 		
-		player.play();
+		fbar.setStyle("-fx-backgroung-color: #bfc2c7;" );
+		
+		kiplayer.play();
 	}
 
 }

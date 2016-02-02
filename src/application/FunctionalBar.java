@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,15 +21,19 @@ public class FunctionalBar extends HBox {
 	Slider timer = new Slider();
 	Slider sound = new Slider();
 
-	Button startButton = new Button("||");
-	Button speedupButton = new Button("▸▸");
-	Button speeddownButton = new Button("◂◂");
-	Button muteButton = new Button("Mute");
-	Button stopButton = new Button("■");
+	 Button startButton = new Button("||");
+	 Button speedupButton = new Button("▸▸");
+	 Button speeddownButton = new Button("◂◂");
+	 Button muteButton = new Button("Mute");
+	 Button stopButton = new Button("■");
 
 	Label volume = new Label("Volume: ");
 
 	MediaPlayer kiplayer;
+	
+	public FunctionalBar(Button startButton){
+		this.startButton=startButton;
+	}
 
 	public FunctionalBar(MediaPlayer play) {
 		kiplayer = play;
@@ -91,7 +96,7 @@ public class FunctionalBar extends HBox {
 		kiplayer.currentTimeProperty().addListener(new InvalidationListener() {
 
 			public void invalidated(Observable observable) {
-				updateValues();
+				Sliders();
 
 			}
 		});
@@ -137,9 +142,31 @@ public class FunctionalBar extends HBox {
 				}
 			}
 		});
+		
+		/*play.setOnMouseClicked(new EventHandler<Event>() {
+
+			public void handle(Event event) {
+				Status status = kiplayer.getStatus();
+
+				if (status == status.PLAYING) {
+					if (kiplayer.getCurrentTime().greaterThanOrEqualTo(kiplayer.getTotalDuration())) {
+						kiplayer.seek(kiplayer.getStartTime());
+						kiplayer.play();
+					} else {
+						kiplayer.pause();
+						startButton.setText("▶");
+					}
+				}
+
+				if (status == Status.PAUSED || status == Status.HALTED || status == Status.STOPPED) {
+					kiplayer.play();
+					startButton.setText("||");
+				}
+			}
+		});*/
 	}
 
-	protected void updateValues() {
+	protected void Sliders() {
 		Platform.runLater(new Runnable() {
 
 			public void run() {
@@ -165,7 +192,9 @@ public class FunctionalBar extends HBox {
 				}
 			}
 		});
-
+		
 	}
+	
+	
 
 }
