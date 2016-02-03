@@ -1,7 +1,8 @@
 package application;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import java.io.File;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -13,7 +14,7 @@ public class KIPlayer extends BorderPane {
 	Media media;
 	MediaPlayer kiplayer;
 	MediaView mview;
-	Pane mpane, impane;
+	Pane mpane, impane, stpane;
 	FunctionalBar fbar;
 
 	public KIPlayer(String file) {
@@ -22,7 +23,7 @@ public class KIPlayer extends BorderPane {
 		kiplayer = new MediaPlayer(media);
 		mview = new MediaView(kiplayer);
 		mpane = new Pane();
-		
+
 		mpane.getChildren().add(mview);
 
 		setCenter(mpane);
@@ -34,16 +35,28 @@ public class KIPlayer extends BorderPane {
 		fbar.setStyle("-fx-backgroung-color: #bfc2c7;");
 
 		kiplayer.play();
+
+		DoubleProperty width = mview.fitWidthProperty();
+		DoubleProperty height = mview.fitHeightProperty();
+
+		width.bind(Bindings.selectDouble(mview.sceneProperty(), "width"));
+		height.bind(Bindings.selectDouble(mview.sceneProperty(), "height"));
 	}
 
-	public KIPlayer(Image img) {
+	public KIPlayer(File file) {
+		if (file != null) {
+			media = new Media(getClass().getResource("/res/534.mp4").toString());
+			kiplayer = new MediaPlayer(media);
+			mview = new MediaView(kiplayer);
+			stpane = new Pane();
 
-		ImageView iv1 = new ImageView();
-		iv1.setImage(img);
+			stpane.getChildren().add(mview);
 
-		impane = new Pane();
-		impane.getChildren().add(iv1);
-		setCenter(impane);
+			setCenter(stpane);
 
+			kiplayer.play();
+
+		}
 	}
+
 }

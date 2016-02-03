@@ -10,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.media.MediaPlayer;
@@ -21,14 +20,14 @@ public class FunctionalBar extends HBox {
 	Slider timer = new Slider();
 	Slider sound = new Slider();
 
-	Button startButton = new Button("||");
+	Button startButton = new Button("▶");
 	Button speedupButton = new Button("▸▸");
 	Button speeddownButton = new Button("◂◂");
 	Button muteButton = new Button("Mute");
 	Button stopButton = new Button("■");
 
 	Label volume = new Label("Volume: ");
-	
+
 	MediaPlayer kiplayer;
 
 	public FunctionalBar(MediaPlayer play) {
@@ -57,7 +56,7 @@ public class FunctionalBar extends HBox {
 
 		stopButton.setPrefSize(30, 20);
 		stopButton.setPadding(new Insets(1));
-				
+
 		getChildren().add(speeddownButton);
 		getChildren().add(startButton);
 		getChildren().add(stopButton);
@@ -72,19 +71,19 @@ public class FunctionalBar extends HBox {
 			public void handle(ActionEvent event) {
 				Status status = kiplayer.getStatus();
 
-				if (status == status.PLAYING) {
+				if (status == Status.PLAYING) {
 					if (kiplayer.getCurrentTime().greaterThanOrEqualTo(kiplayer.getTotalDuration())) {
 						kiplayer.seek(kiplayer.getStartTime());
 						kiplayer.play();
 					} else {
 						kiplayer.pause();
-						startButton.setText("▶");
+						
 					}
 				}
 
 				if (status == Status.PAUSED || status == Status.HALTED || status == Status.STOPPED) {
 					kiplayer.play();
-					startButton.setText("||");
+					
 				}
 			}
 		});
@@ -134,7 +133,7 @@ public class FunctionalBar extends HBox {
 				} else {
 					kiplayer.setVolume(50);
 					sound.setValue(50);
-					
+
 				}
 			}
 		});
